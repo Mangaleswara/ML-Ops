@@ -13,20 +13,19 @@ def run_training() -> None:
 
     # divide train and test
     X_train, X_test, y_train, y_test = train_test_split(
-        data[config.model_config.features],  # predictors
-        data[config.model_config.target],
-        test_size=config.model_config.test_size,
-        # we are setting the random seed here
-        # for reproducibility
-        random_state=config.model_config.random_state,
-    )
-    y_train = np.log(y_train)
+        data.drop('survived', axis=1),  # predictors
+        data['survived'],  # target
+        test_size=0.2,  # percentage of obs in test set
+        random_state=0)  # seed to ensure reproducibility
+
+    X_train.shape, X_test.shape
+        )
 
     # fit model
-    price_pipe.fit(X_train, y_train)
+    titanic_pipe.fit(X_train, y_train)
 
     # persist trained model
-    save_pipeline(pipeline_to_persist=price_pipe)
+    save_pipeline(pipeline_to_persist=titanic_pipe)
 
 
 if __name__ == "__main__":
