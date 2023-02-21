@@ -1,1 +1,1 @@
-regression_model
+classification_model
